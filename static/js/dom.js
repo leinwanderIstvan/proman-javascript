@@ -33,6 +33,31 @@ export let dom = {
         return boardHeader;
     },
     showBoardBody: function(){
+        const boardBody = `
+            <div class="board-columns">
+                <div class="board-column">
+                    <div class="board-column-title">New</div>
+                    <div class="board-column-content">
+                    </div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">In progress</div>
+                    <div class="board-column-content">
+                    </div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Testing</div>
+                    <div class="board-column-content">
+                    </div>
+                </div>
+                <div class="board-column">
+                    <div class="board-column-title">Done</div>
+                    <div class="board-column-content">
+                    </div>
+                </div> 
+            </div> 
+        `
+        return boardBody;
 
     },
 
@@ -53,7 +78,7 @@ export let dom = {
         let boardList = [];
 
         for(let board of boards){
-            boardList.push(dom.showBoardHeader(board));
+            boardList.push(dom.showBoardHeader(board) + dom.showBoardBody());
         }
 
         for(let board of boardList) {
