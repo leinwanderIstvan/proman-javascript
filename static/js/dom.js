@@ -1,7 +1,9 @@
 // It uses data_handler.js to visualize elements
+
 import { dataHandler } from "./data_handler.js";
 
 export let dom = {
+    boardWrapper: '#boards',
     _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
         let fakeDiv = document.createElement('div');
@@ -23,8 +25,12 @@ export let dom = {
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
+            dom.clearBoards();
             dom.showBoards(boards);
         });
+    },
+    clearBoards: function (){
+        document.querySelector(this.boardWrapper).innerHTML = "";
     },
     showBoards: function (boards) {
         // shows boards appending them to #boards div
@@ -44,8 +50,9 @@ export let dom = {
             </ul>
         `;
 
-        this._appendToElement(document.querySelector('#boards'), outerHtml);
+        this._appendToElement(document.querySelector(this.boardWrapper), outerHtml);
     },
+
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
     },
