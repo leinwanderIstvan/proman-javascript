@@ -36,3 +36,8 @@ def get_board_by_id(board_id):
         if board.get("id") == str(board_id):
             return board
 
+
+
+def get_statuses():
+    persistence.clear_cache()
+    return persistence.get_statuses(force=True)
