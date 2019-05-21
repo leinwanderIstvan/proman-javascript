@@ -33,16 +33,7 @@ export let dom = {
         return boardHeader;
     },
     showBoardBody: function(statuses){
-        const boardBody = `<div class="board-columns">`;
-            statuses.forEach(function (status) {
-            `<div class="board-column">
-                    <div class="board-column-title">`,status`</div>
-                    <div class="board-column-content"></div>
-                </div>
-            </div>`
-        });
-
-            `
+        const boardBody = `
             <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
@@ -79,7 +70,8 @@ export let dom = {
             dom.showBoards(boards);
             dom.loadBoard(1);
             dom.loadBoard(2 );
-            dom.getStatuses()
+            dom.getStatuses();
+            dom.getCardsByBoardId(0);
         });
     },
     clearBoards: function (){
