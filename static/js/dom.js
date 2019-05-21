@@ -29,11 +29,20 @@ export let dom = {
                 <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
             </div>
         
-        `
+        `;
         return boardHeader;
     },
-    showBoardBody: function(){
-        const boardBody = `
+    showBoardBody: function(statuses){
+        const boardBody = `<div class="board-columns">`;
+            statuses.forEach(function (status) {
+            `<div class="board-column">
+                    <div class="board-column-title">`,status`</div>
+                    <div class="board-column-content"></div>
+                </div>
+            </div>`
+        });
+
+            `
             <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
@@ -52,7 +61,7 @@ export let dom = {
                     <div class="board-column-content"></div>
                 </div> 
             </div> 
-        `
+        `;
         return boardBody;
 
     },
@@ -70,6 +79,7 @@ export let dom = {
             dom.showBoards(boards);
             dom.loadBoard(1);
             dom.loadBoard(2 );
+            dom.getStatuses()
         });
     },
     clearBoards: function (){
@@ -106,4 +116,13 @@ export let dom = {
         // it adds necessary event listeners also
     },
     // here comes more features
+
+    getStatuses: function () {
+        dataHandler.getStatuses(function (statuses) {
+            console.log(statuses)
+        })
+
+    }
+
 };
+
