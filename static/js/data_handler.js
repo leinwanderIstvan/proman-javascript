@@ -33,6 +33,11 @@ export let dataHandler = {
         });
     },
     getBoard: function (boardId, callback) {
+        let url = "/get-board/" + boardId;
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(boardId, response);
+        });
         // the board is retrieved and then the callback function is called with the board
     },
     getStatuses: function (callback) {

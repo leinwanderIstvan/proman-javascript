@@ -57,11 +57,19 @@ export let dom = {
 
     },
 
+    loadBoard: function (board_id) {
+        dataHandler.getBoard(board_id, function (board_id, board) {
+           console.log(board_id, board)
+        });
+    },
+
     loadBoards: function () {
         // retrieves boards and makes showBoards called
         dataHandler.getBoards(function(boards){
             dom.clearBoards();
             dom.showBoards(boards);
+            dom.loadBoard(1);
+            dom.loadBoard(2 );
         });
     },
     clearBoards: function (){
@@ -86,6 +94,7 @@ export let dom = {
 
             this._appendToElement(document.querySelector(this.boardWrapper), outerHtml);
         }
+
     },
 
 
