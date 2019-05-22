@@ -41,8 +41,8 @@ export let dom = {
 
 
     },
-    showBoardBody: function(){
-        let statuses = ["New","In progress","Testing","Done"];
+    showBoardBody: function(statuses){
+        //let statuses = ["New","In progress","Testing","Done"];
         let boardBody = document.createElement("div");
         boardBody.classList.add("board-columns");
         for (let status of statuses){
@@ -50,7 +50,7 @@ export let dom = {
             boardColumn.classList.add("board-column");
             let boardColumnTitle = document.createElement("div");
             boardColumnTitle.classList.add("board-column-title");
-            boardColumnTitle.innerHTML = status;
+            boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
             let boardColumnContent = document.createElement("div");
             boardColumnContent.classList.add("board-column-content");
@@ -88,7 +88,7 @@ export let dom = {
             let section = document.createElement("section");
             section.classList.add("board");
             section.appendChild(dom.showBoardHeader(board));
-            section.appendChild(dom.showBoardBody());
+            dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses)));
             document.getElementById("board-container").appendChild(section)
         }
 
@@ -101,7 +101,9 @@ export let dom = {
             console.log(cards)
         })
     },
-    showCards: function (cards) {
+    showCards: function (cards, callback) {
+
+
         // shows the cards of a board
         // it adds necessary event listeners also
     },
@@ -109,6 +111,7 @@ export let dom = {
 
     getStatuses: function () {
         dataHandler.getStatuses(function (statuses) {
+
             console.log(statuses)
         })
 
