@@ -41,29 +41,23 @@ export let dom = {
 
 
     },
-    showBoardBody: function(statuses){
-        const boardBody =`
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">New</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">In progress</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content"></div>
-                </div> 
-            </div> 
-        `;
+    showBoardBody: function(){
+        let statuses = ["New","In progress","Testing","Done"];
+        let boardBody = document.createElement("div");
+        boardBody.classList.add("board-columns");
+        for (let status of statuses){
+            let boardColumn = document.createElement("div");
+            boardColumn.classList.add("board-column");
+            let boardColumnTitle = document.createElement("div");
+            boardColumnTitle.classList.add("board-column-title");
+            boardColumnTitle.innerHTML = status;
+            boardColumn.appendChild(boardColumnTitle);
+            let boardColumnContent = document.createElement("div");
+            boardColumnContent.classList.add("board-column-content");
+            boardColumn.appendChild(boardColumnContent);
+            boardBody.appendChild(boardColumn);
+        }
         return boardBody;
-
     },
 
     loadBoard: function (board_id) {
@@ -94,6 +88,7 @@ export let dom = {
             let section = document.createElement("section");
             section.classList.add("board");
             section.appendChild(dom.showBoardHeader(board));
+            section.appendChild(dom.showBoardBody());
             document.getElementById("board-container").appendChild(section)
         }
 
