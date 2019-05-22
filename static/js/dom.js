@@ -36,7 +36,7 @@ export let dom = {
         const boardBody = `
             <div class="board-columns">
                 <div class="board-column">
-                    <div class="board-column-title">New</div>
+                    <div class="board-column-title">${statuses}</div>
                     <div class="board-column-content"></div>
                 </div>
                 <div class="board-column">
@@ -70,8 +70,11 @@ export let dom = {
             dom.showBoards(boards);
             dom.loadBoard(1);
             dom.loadBoard(2 );
-            dom.getStatuses();
-            dom.getCardsByBoardId(0);
+            console.log("test", dom.getStatuses());
+            dom.getStatus("1");
+            dom.getStatus("0");
+            dom.loadCards("1");
+            dom.getCardsByBoardId("1");
         });
     },
     clearBoards: function (){
@@ -102,8 +105,8 @@ export let dom = {
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getCardsByBoardId(boardId,function (boardId,cards) {
-            console.log(cards)
+        dataHandler.getCardsByBoardId(boardId,function (boardId,cards,) {
+            console.log(cards);
         })
     },
     showCards: function (cards) {
@@ -113,8 +116,24 @@ export let dom = {
     // here comes more features
 
     getStatuses: function () {
-        dataHandler.getStatuses(function (statuses) {
-            console.log(statuses)
+        dataHandler.getStatuses(function (statuses,status) {
+            console.log(statuses);
+            console.log(status);
+            dom.showBoardBody(statuses);
+        });
+
+
+    },
+
+    getStatus: function (status_id) {
+        dataHandler.getStatus(status_id, function (status_id,status) {
+            console.log(status);
+        })
+    },
+
+    getCardsByBoardId: function (boardId) {
+        dataHandler.getCardsByBoardId(boardId, function (boardId,cards) {
+            console.log(cards)
         })
 
     }

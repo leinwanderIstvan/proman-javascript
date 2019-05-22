@@ -48,6 +48,11 @@ export let dataHandler = {
         // the statuses are retrieved and then the callback function is called with the statuses
     },
     getStatus: function (statusId, callback) {
+        let url = "/get-statuses/" + statusId;
+        this._api_get(url, (response)=>{
+            this._data = response;
+            callback(statusId, response);
+        });
         // the status is retrieved and then the callback function is called with the status
     },
     getCardsByBoardId: function (boardId, callback) {
@@ -59,6 +64,11 @@ export let dataHandler = {
         });
     },
     getCard: function (cardId, callback) {
+        let url = "/get-cards/" + cardId;
+        this._api_get(url, (response)=>{
+            this._data = response;
+            callback(cardId, response);
+        })
         // the card is retrieved and then the callback function is called with the card
     },
     createNewBoard: function (boardTitle, callback) {

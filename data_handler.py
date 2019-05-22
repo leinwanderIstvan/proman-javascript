@@ -40,3 +40,21 @@ def get_board_by_id(board_id):
 def get_statuses():
     persistence.clear_cache()
     return persistence.get_statuses(force=True)
+
+
+def get_status_by_id(status_id):
+    persistence.clear_cache()
+    statuses = persistence.get_statuses()
+    for status in statuses:
+        if status["id"] == str(status_id):
+            return status.get("title")
+
+
+def get_card_by_id(card_id):
+    persistence.clear_cache()
+    cards = persistence.get_cards()
+    print(cards)
+    for card in cards:
+        if card.get("id") == int(card_id):
+            print(card)
+            return card
