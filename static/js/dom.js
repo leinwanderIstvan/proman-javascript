@@ -41,7 +41,7 @@ export let dom = {
 
 
     },
-    showBoardBody: function(statuses){
+    showBoardBody: function(statuses,board){
         let boardBody = document.createElement("div");
         boardBody.classList.add("board-columns");
         for (let status of statuses){
@@ -51,10 +51,8 @@ export let dom = {
             boardColumnTitle.classList.add("board-column-title");
             boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
-            let boardColumnContent = document.createElement("div");
-            boardColumnContent.classList.add("board-column-content");
-            boardColumn.appendChild(boardColumnContent);
-            boardColumnContent.appendChild(dom.createCard());
+            dataHandler.getCardsByBoardId(board.id, (cards)=> boardColumn.appendChild(dom.selectCards(status, cards)));
+            //boardColumnContent.appendChild(dom.createCard());
             boardBody.appendChild(boardColumn);
         }
         return boardBody;
@@ -85,12 +83,13 @@ export let dom = {
             let section = document.createElement("section");
             section.classList.add("board");
             section.appendChild(dom.showBoardHeader(board));
-            dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses)));
+            dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses, board)));
+
             document.getElementById("board-container").appendChild(section)
         }
 
     },
-    createCard: function (){
+    createCard: function (title){
         let card = document.createElement("div");
         card.classList.add("card");
         let cardRemove = document.createElement("div")
@@ -99,7 +98,7 @@ export let dom = {
         card.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
         cardTitle.classList.add("card-title");
-        cardTitle.innerHTML="card1";
+        cardTitle.innerHTML=title;
         card.appendChild(cardTitle);
         return card;
     },
@@ -107,24 +106,28 @@ export let dom = {
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         dataHandler.getCardsByBoardId(boardId,function (boardId,cards) {
-            console.log(cards)
+            dom.showCards(cards,boardId);
         })
     },
-    showCards: function (cards, callback) {
-
+    showCards: function (cards) {
 
         // shows the cards of a board
         // it adds necessary event listeners also
     },
     // here comes more features
 
-    getStatuses: function () {
-        dataHandler.getStatuses(function (statuses) {
 
-            console.log(statuses)
-        })
-
+    selectCards: function (status,cards) {
+        let boardColumnContent = document.createElement("div");
+        boardColumnContent.classList.add("board-column-content");
+        for ( let card of cards) {
+            if (card.status_id === status.title){
+                boardColumnContent.appendChild(dom.createCard(card.title));
+            }
+        }
+    return boardColumnContent
     }
+
 
 };
 

@@ -60,7 +60,7 @@ export let dataHandler = {
         let url = "/get-cards/" + boardId;
         this._api_get(url, (response) => {
             this._data = response;
-            callback(boardId, response);
+            callback(response);
         });
     },
     getCard: function (cardId, callback) {
