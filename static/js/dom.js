@@ -23,17 +23,26 @@ export let dom = {
         // This function should run once, when the page is loaded.
     },
     showBoardHeader: function(board){
-        const boardHeader = `
-            <div class="board-header"><span class="board-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-        
-        `;
-        return boardHeader;
+        const header = document.createElement("div");
+        header.classList.add("board-header");
+        let title = document.createElement("span");
+        title.innerHTML=board.title;
+        title.classList.add("board-title");
+        header.appendChild(title);
+        let button1 = document.createElement("button");
+            button1.innerHTML='Add card';
+            button1.classList.add("board-add");
+            header.appendChild(button1);
+        let button2 = document.createElement("button");
+            button2.innerHTML='V';
+            button2.classList.add("board-toggle");
+            header.appendChild(button2);
+        return header
+
+
     },
     showBoardBody: function(statuses){
-        const boardBody = `
+        const boardBody =`
             <div class="board-columns">
                 <div class="board-column">
                     <div class="board-column-title">New</div>
@@ -71,7 +80,8 @@ export let dom = {
             dom.loadBoard(1);
             dom.loadBoard(2 );
             dom.getStatuses();
-            dom.getCardsByBoardId(0);
+            dom.loadCards(1);
+            dom.loadCards(2);
         });
     },
     clearBoards: function (){
@@ -80,21 +90,11 @@ export let dom = {
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-
-        let boardList = [];
-
-        for(let board of boards){
-            boardList.push(dom.showBoardHeader(board) + dom.showBoardBody());
-        }
-
-        for(let board of boardList) {
-            const outerHtml = `
-            <section class="board">
-                ${board}
-            </section>
-            `;
-
-            this._appendToElement(document.querySelector(this.boardWrapper), outerHtml);
+        for(let board of boards) {
+            let section = document.createElement("section");
+            section.classList.add("board");
+            section.appendChild(dom.showBoardHeader(board));
+            document.getElementById("board-container").appendChild(section)
         }
 
     },
