@@ -4,7 +4,7 @@ import { dataHandler } from "./data_handler.js";
 
 export let dom = {
     boardWrapper: '#board-container',
-    _appendToElement: function (elementToExtend, textToAppend, prepend = false) {
+    appendToElement: function (elementToExtend, textToAppend, prepend = false) {
         // function to append new DOM elements (represented by a string) to an existing DOM element
         let fakeDiv = document.createElement('div');
         fakeDiv.innerHTML = textToAppend.trim();
@@ -25,6 +25,8 @@ export let dom = {
     showBoardHeader: function(board){
         const header = document.createElement("div");
         header.classList.add("board-header");
+        header.classList.add("open");
+        header.setAttribute("id", "board-header" + board.id);
         let title = document.createElement("span");
         title.innerHTML=board.title;
         title.classList.add("board-title");
@@ -32,30 +34,48 @@ export let dom = {
         let button1 = document.createElement("button");
             button1.innerHTML='Add card';
             button1.classList.add("board-add");
+            button1.addEventListener("click", function(){console.log("ez a gomb semmit sem csinal")});
             header.appendChild(button1);
         let button2 = document.createElement("button");
             button2.innerHTML='<i class="fas fa-chevron-down"></i>';
             button2.classList.add("board-toggle");
+            button2.addEventListener("click", function(){
+                if (document.getElementById("board-header" + board.id).classList[1] === "open") {
+                    document.getElementById("board-header" + board.id).classList.remove("open");
+                    document.getElementById("board-header" + board.id).classList.add("closed");
+                    let element = document.getElementById("section" + board.id);
+                    element.removeChild(element.lastChild);
+                    }
+                else {
+                    document.getElementById("board-header" + board.id).classList.remove("closed");
+                    document.getElementById("board-header" + board.id).classList.add("open");
+                    dataHandler.getStatuses((statuses)=>document.getElementById("section" + board.id).appendChild(dom.showBoardBody(statuses, board)));
+                }
+
+            });
             header.appendChild(button2);
         return header
 
 
     },
     showBoardBody: function(statuses,board){
-        let boardBody = document.createElement("div");
-        boardBody.classList.add("board-columns");
-        for (let status of statuses){
-            let boardColumn = document.createElement("div");
-            boardColumn.classList.add("board-column");
-            let boardColumnTitle = document.createElement("div");
-            boardColumnTitle.classList.add("board-column-title");
-            boardColumnTitle.innerHTML = status.title;
-            boardColumn.appendChild(boardColumnTitle);
-            dataHandler.getCardsByBoardId(board.id, (cards)=> boardColumn.appendChild(dom.selectCards(status, cards)));
-            //boardColumnContent.appendChild(dom.createCard());
-            boardBody.appendChild(boardColumn);
+        if (document.getElementById("board-header" + board.id).classList[1] === "open") {
+            let boardBody = document.createElement("div");
+            boardBody.classList.add("board-columns");
+            boardBody.setAttribute("id", "board-body" + board.id);
+            for (let status of statuses) {
+                let boardColumn = document.createElement("div");
+                boardColumn.classList.add("board-column");
+                let boardColumnTitle = document.createElement("div");
+                boardColumnTitle.classList.add("board-column-title");
+                boardColumnTitle.innerHTML = status.title;
+                boardColumn.appendChild(boardColumnTitle);
+                dataHandler.getCardsByBoardId(board.id, (cards) => boardColumn.appendChild(dom.selectCards(status, cards)));
+                //boardColumnContent.appendChild(dom.createCard());
+                boardBody.appendChild(boardColumn);
+            }
+            return boardBody;
         }
-        return boardBody;
     },
 
 
@@ -82,6 +102,7 @@ export let dom = {
         for(let board of boards) {
             let section = document.createElement("section");
             section.classList.add("board");
+            section.id = "section" + board.id;
             section.appendChild(dom.showBoardHeader(board));
             dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses, board)));
 
@@ -127,7 +148,6 @@ export let dom = {
         }
     return boardColumnContent
     }
-
 
 };
 
