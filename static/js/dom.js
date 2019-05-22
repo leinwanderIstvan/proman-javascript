@@ -110,18 +110,23 @@ export let dom = {
         }
 
     },
-    createCard: function (title){
-        let card = document.createElement("div");
-        card.classList.add("card");
+    createCard: function (card){
+        let elementCard = document.createElement("div");
+        elementCard.classList.add("card");
+        elementCard.id = "card" + card.id;
         let cardRemove = document.createElement("div")
         cardRemove.classList.add("card-remove");
         cardRemove.innerHTML='<i class="fas fa-trash-alt"></i>';
-        card.appendChild(cardRemove);
+        cardRemove.addEventListener("click", function () {
+            document.getElementById("card"+card.id).remove();
+
+        });
+        elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
         cardTitle.classList.add("card-title");
-        cardTitle.innerHTML=title;
-        card.appendChild(cardTitle);
-        return card;
+        cardTitle.innerHTML=card.title;
+        elementCard.appendChild(cardTitle);
+        return elementCard;
     },
 
     loadCards: function (boardId) {
@@ -143,7 +148,7 @@ export let dom = {
         boardColumnContent.classList.add("board-column-content");
         for ( let card of cards) {
             if (card.status_id === status.title){
-                boardColumnContent.appendChild(dom.createCard(card.title));
+                boardColumnContent.appendChild(dom.createCard(card));
             }
         }
     return boardColumnContent
