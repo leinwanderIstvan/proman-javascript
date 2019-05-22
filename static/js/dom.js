@@ -41,8 +41,8 @@ export let dom = {
 
 
     },
-    showBoardBody: function(){
-        let statuses = ["New","In progress","Testing","Done"];
+    showBoardBody: function(statuses){
+        //let statuses = ["New","In progress","Testing","Done"];
         let boardBody = document.createElement("div");
         boardBody.classList.add("board-columns");
         for (let status of statuses){
@@ -50,7 +50,7 @@ export let dom = {
             boardColumn.classList.add("board-column");
             let boardColumnTitle = document.createElement("div");
             boardColumnTitle.classList.add("board-column-title");
-            boardColumnTitle.innerHTML = status;
+            boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
             let boardColumnContent = document.createElement("div");
             boardColumnContent.classList.add("board-column-content");
@@ -73,11 +73,9 @@ export let dom = {
             dom.showBoards(boards);
             dom.loadBoard(1);
             dom.loadBoard(2 );
-            console.log("test", dom.getStatuses());
-            dom.getStatus("1");
-            dom.getStatus("0");
-            dom.loadCards("1");
-            dom.getCardsByBoardId("1");
+            dom.getStatuses();
+            dom.loadCards(1);
+            dom.loadCards(2);
         });
     },
     clearBoards: function (){
@@ -90,7 +88,7 @@ export let dom = {
             let section = document.createElement("section");
             section.classList.add("board");
             section.appendChild(dom.showBoardHeader(board));
-            section.appendChild(dom.showBoardBody());
+            dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses)));
             document.getElementById("board-container").appendChild(section)
         }
 
@@ -100,34 +98,21 @@ export let dom = {
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
         dataHandler.getCardsByBoardId(boardId,function (boardId,cards) {
-            console.log(cards);
+            console.log(cards)
         })
     },
-    showCards: function (cards) {
+    showCards: function (cards, callback) {
+
+
         // shows the cards of a board
         // it adds necessary event listeners also
     },
     // here comes more features
 
     getStatuses: function () {
-        dataHandler.getStatuses(function (statuses,status) {
-            console.log(statuses);
-            console.log(status);
-            dom.showBoardBody(statuses);
-        });
+        dataHandler.getStatuses(function (statuses) {
 
-
-    },
-
-    getStatus: function (status_id) {
-        dataHandler.getStatus(status_id, function (status_id,status) {
-            console.log(status);
-        })
-    },
-
-    getCardsByBoardId: function (boardId) {
-        dataHandler.getCardsByBoardId(boardId, function (boardId,cards) {
-            console.log(cards)
+            console.log(statuses)
         })
 
     }
