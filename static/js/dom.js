@@ -34,7 +34,7 @@ export let dom = {
             button1.classList.add("board-add");
             header.appendChild(button1);
         let button2 = document.createElement("button");
-            button2.innerHTML='V';
+            button2.innerHTML='<i class="fas fa-chevron-down"></i>';
             button2.classList.add("board-toggle");
             header.appendChild(button2);
         return header
@@ -42,7 +42,6 @@ export let dom = {
 
     },
     showBoardBody: function(statuses){
-        //let statuses = ["New","In progress","Testing","Done"];
         let boardBody = document.createElement("div");
         boardBody.classList.add("board-columns");
         for (let status of statuses){
@@ -55,10 +54,13 @@ export let dom = {
             let boardColumnContent = document.createElement("div");
             boardColumnContent.classList.add("board-column-content");
             boardColumn.appendChild(boardColumnContent);
+            boardColumnContent.appendChild(dom.createCard());
             boardBody.appendChild(boardColumn);
         }
         return boardBody;
     },
+
+
 
     loadBoard: function (board_id) {
         dataHandler.getBoard(board_id, function (board_id, board) {
@@ -71,11 +73,6 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.clearBoards();
             dom.showBoards(boards);
-            dom.loadBoard(1);
-            dom.loadBoard(2 );
-            dom.getStatuses();
-            dom.loadCards(1);
-            dom.loadCards(2);
         });
     },
     clearBoards: function (){
@@ -93,7 +90,19 @@ export let dom = {
         }
 
     },
-
+    createCard: function (){
+        let card = document.createElement("div");
+        card.classList.add("card");
+        let cardRemove = document.createElement("div")
+        cardRemove.classList.add("card-remove");
+        cardRemove.innerHTML='<i class="fas fa-trash-alt"></i>';
+        card.appendChild(cardRemove);
+        let cardTitle = document.createElement("div");
+        cardTitle.classList.add("card-title");
+        cardTitle.innerHTML="card1";
+        card.appendChild(cardTitle);
+        return card;
+    },
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
