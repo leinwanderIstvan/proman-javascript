@@ -23,38 +23,41 @@ export let dom = {
         // This function should run once, when the page is loaded.
     },
     showBoardHeader: function(board){
-        const boardHeader = `
-            <div class="board-header"><span class="board-title">${board.title}</span>
-                <button class="board-add">Add Card</button>
-                <button class="board-toggle"><i class="fas fa-chevron-down"></i></button>
-            </div>
-        
-        `;
-        return boardHeader;
-    },
-    showBoardBody: function(statuses){
-        const boardBody = `
-            <div class="board-columns">
-                <div class="board-column">
-                    <div class="board-column-title">${statuses}</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">In progress</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Testing</div>
-                    <div class="board-column-content"></div>
-                </div>
-                <div class="board-column">
-                    <div class="board-column-title">Done</div>
-                    <div class="board-column-content"></div>
-                </div> 
-            </div> 
-        `;
-        return boardBody;
+        const header = document.createElement("div");
+        header.classList.add("board-header");
+        let title = document.createElement("span");
+        title.innerHTML=board.title;
+        title.classList.add("board-title");
+        header.appendChild(title);
+        let button1 = document.createElement("button");
+            button1.innerHTML='Add card';
+            button1.classList.add("board-add");
+            header.appendChild(button1);
+        let button2 = document.createElement("button");
+            button2.innerHTML='V';
+            button2.classList.add("board-toggle");
+            header.appendChild(button2);
+        return header
 
+
+    },
+    showBoardBody: function(){
+        let statuses = ["New","In progress","Testing","Done"];
+        let boardBody = document.createElement("div");
+        boardBody.classList.add("board-columns");
+        for (let status of statuses){
+            let boardColumn = document.createElement("div");
+            boardColumn.classList.add("board-column");
+            let boardColumnTitle = document.createElement("div");
+            boardColumnTitle.classList.add("board-column-title");
+            boardColumnTitle.innerHTML = status;
+            boardColumn.appendChild(boardColumnTitle);
+            let boardColumnContent = document.createElement("div");
+            boardColumnContent.classList.add("board-column-content");
+            boardColumn.appendChild(boardColumnContent);
+            boardBody.appendChild(boardColumn);
+        }
+        return boardBody;
     },
 
     loadBoard: function (board_id) {
@@ -83,21 +86,12 @@ export let dom = {
     showBoards: function (boards) {
         // shows boards appending them to #boards div
         // it adds necessary event listeners also
-
-        let boardList = [];
-
-        for(let board of boards){
-            boardList.push(dom.showBoardHeader(board) + dom.showBoardBody());
-        }
-
-        for(let board of boardList) {
-            const outerHtml = `
-            <section class="board">
-                ${board}
-            </section>
-            `;
-
-            this._appendToElement(document.querySelector(this.boardWrapper), outerHtml);
+        for(let board of boards) {
+            let section = document.createElement("section");
+            section.classList.add("board");
+            section.appendChild(dom.showBoardHeader(board));
+            section.appendChild(dom.showBoardBody());
+            document.getElementById("board-container").appendChild(section)
         }
 
     },
@@ -105,7 +99,7 @@ export let dom = {
 
     loadCards: function (boardId) {
         // retrieves cards and makes showCards called
-        dataHandler.getCardsByBoardId(boardId,function (boardId,cards,) {
+        dataHandler.getCardsByBoardId(boardId,function (boardId,cards) {
             console.log(cards);
         })
     },
