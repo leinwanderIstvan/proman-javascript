@@ -34,7 +34,14 @@ export let dom = {
         let button1 = document.createElement("button");
             button1.innerHTML='Add card';
             button1.classList.add("board-add");
-            button1.addEventListener("click", function(){console.log("ez a gomb semmit sem csinal")});
+            button1.addEventListener("click", function(){
+                let newCard = { board_id: board.id,
+                                id: 13,
+                                order: 2,
+                                status_id: "new",
+                                title: "this is the newest card"};
+                document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
+            });
             header.appendChild(button1);
         let button2 = document.createElement("button");
             button2.innerHTML='<i class="fas fa-chevron-down"></i>';
@@ -119,7 +126,6 @@ export let dom = {
         cardRemove.innerHTML='<i class="fas fa-trash-alt"></i>';
         cardRemove.addEventListener("click", function () {
             document.getElementById("card"+card.id).remove();
-
         });
         elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
@@ -146,6 +152,7 @@ export let dom = {
     selectCards: function (status,cards) {
         let boardColumnContent = document.createElement("div");
         boardColumnContent.classList.add("board-column-content");
+        boardColumnContent.id = "board-column-content-"+ cards[0].board_id +"-" + status.title;
         for ( let card of cards) {
             if (card.status_id === status.title){
                 boardColumnContent.appendChild(dom.createCard(card));
