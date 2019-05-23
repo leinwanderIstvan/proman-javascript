@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for , request
 from util import json_response
 
 import data_handler
@@ -58,10 +58,10 @@ def get_card_by_id(card_id):
     return data_handler.get_card_by_id(card_id)
 
 
-@app.route("/create-card/<card_title>/<board_id>/<status_id>")
+@app.route("/create-card", methods=["POST"])
 @json_response
-def create_card(card_title, board_id, status_id):
-    data = {"id": "0", "board_id": board_id, "title": card_title, "status_id": status_id, "order": "0"}
+def create_card():
+    data = {"id": "0", "board_id": request.json["board_id"], "title": request.json["card_title"], "status_id": request.json["status_id"], "order": "0"}
     data_handler.write_card_to_csv(data)
 
 

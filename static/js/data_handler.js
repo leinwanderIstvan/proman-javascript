@@ -87,12 +87,13 @@ export let dataHandler = {
         // creates new board, saves it and calls the callback function with its data
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
-        let url = "/create-card/"+cardTitle+"/"+boardId+"/"+statusId;
-        this._api_post(url, data, callback);
+        let url = "/create-card";
+        let data = {"title":cardTitle, "board_id":boardId, "status_id":statusId};
+        this._api_post(url, data, ()=>{console.log("Hello server!")});
 
-        )
+
         // creates new card, saves it and calls the callback function with its data
-    }
+    },
     // here comes more features
 
     lastID: function (callback) {

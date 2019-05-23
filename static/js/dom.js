@@ -41,6 +41,7 @@ export let dom = {
                                 order: 2,
                                 status_id: "new",
                                 title: "this is the newest card"};
+                dataHandler.createNewCard(newCard.title, newCard.board_id, newCard.status_id,()=>{});
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
             });
             header.appendChild(button1);
@@ -172,12 +173,7 @@ export let dom = {
             document.getElementById("board-column-content-"+board.id+"-testing"),
             document.getElementById("board-column-content-"+board.id+"-done")]);
         }
-            for ( let board of boards){
-            console.log([document.getElementById("board-column-content-"+board.id+"-new"),
-            document.getElementById("board-column-content-"+board.id+"-in progress"),
-            document.getElementById("board-column-content-"+board.id+"-testing"),
-            document.getElementById("board-column-content-"+board.id+"-done")]);
-            }
+
     },
 
 };
