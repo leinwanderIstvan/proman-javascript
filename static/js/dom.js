@@ -22,6 +22,13 @@ export let dom = {
     init: function () {
         // This function should run once, when the page is loaded.
     },
+
+    renameBoard: function(board){
+        document.getElementById("rename"+board.id).addEventListener("click", function () {
+            let newName = prompt("Please enter your new board name", board.title);
+        })
+    },
+
     showBoardHeader: function(board){
         const header = document.createElement("div");
         header.classList.add("board-header");
@@ -43,6 +50,10 @@ export let dom = {
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
             });
             header.appendChild(button1);
+        let renameButton = document.createElement("button");
+        renameButton.id="rename"+board.id;
+        renameButton.innerHTML="Rename";
+        header.appendChild(renameButton);
         let button2 = document.createElement("button");
             button2.innerHTML='<i class="fas fa-chevron-down"></i>';
             button2.classList.add("board-toggle");
@@ -62,6 +73,7 @@ export let dom = {
             });
             header.appendChild(button2);
         return header
+
 
 
     },
@@ -98,6 +110,7 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.clearBoards();
             dom.showBoards(boards);
+
         });
     },
     clearBoards: function (){
@@ -114,6 +127,7 @@ export let dom = {
             dataHandler.getStatuses((statuses)=>section.appendChild(dom.showBoardBody(statuses, board)));
 
             document.getElementById("board-container").appendChild(section)
+            dom.renameBoard(board);
         }
 
     },
