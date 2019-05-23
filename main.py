@@ -58,6 +58,13 @@ def get_card_by_id(card_id):
     return data_handler.get_card_by_id(card_id)
 
 
+@app.route("/create-card/<card_title>/<board_id>/<status_id>")
+@json_response
+def create_card(card_title, board_id, status_id):
+    data = {"id": "0", "board_id": board_id, "title": card_title, "status_id": status_id, "order": "0"}
+    data_handler.write_card_to_csv(data)
+
+
 def main():
     app.run(debug=True)
 

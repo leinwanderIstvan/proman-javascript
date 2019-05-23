@@ -53,8 +53,10 @@ def get_status_by_id(status_id):
 def get_card_by_id(card_id):
     persistence.clear_cache()
     cards = persistence.get_cards()
-    print(cards)
     for card in cards:
         if card.get("id") == int(card_id):
-            print(card)
             return card
+
+
+def write_card_to_csv(data):
+    persistence.create_card(data=data)

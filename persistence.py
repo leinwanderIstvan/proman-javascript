@@ -21,6 +21,12 @@ def _read_csv(file_name):
         return formatted_data
 
 
+def _append_to_csv(file_name, fieldnames, data):
+    with open(file_name, mode="a") as boards:
+        writer = csv.DictWriter(boards, fieldnames=fieldnames)
+        writer.writerow(data)
+
+
 def _get_data(data_type, file, force):
     """
     Reads defined type of data from file or cache
@@ -49,3 +55,11 @@ def get_boards(force=False):
 
 def get_cards(force=False):
     return _get_data('cards', CARDS_FILE, force)
+
+
+def create_board(data):
+    _append_to_csv(BOARDS_FILE,["id", "title"], data=data)
+
+
+def create_card(data):
+    _append_to_csv(CARDS_FILE, ["id", "board_id", "title", "status_id", "order"], data=data)
