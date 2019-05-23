@@ -26,6 +26,7 @@ export let dom = {
     renameBoard: function(board){
         document.getElementById("rename"+board.id).addEventListener("click", function () {
             let newName = prompt("Please enter your new board name", board.title);
+            document.getElementById("title"+board.id).innerHTML=newName;
         })
     },
 
@@ -37,6 +38,7 @@ export let dom = {
         let title = document.createElement("span");
         title.innerHTML=board.title;
         title.classList.add("board-title");
+        title.id="title"+board.id;
         header.appendChild(title);
         let button1 = document.createElement("button");
             button1.innerHTML='Add card';
