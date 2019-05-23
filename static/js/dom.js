@@ -77,7 +77,6 @@ export let dom = {
         return header
 
 
-
     },
     showBoardBody: function(statuses,board){
         if (document.getElementById("board-header" + board.id).classList[1] === "open") {
@@ -87,6 +86,7 @@ export let dom = {
             for (let status of statuses) {
                 let boardColumn = document.createElement("div");
                 boardColumn.classList.add("board-column");
+                boardColumn.setAttribute("id", "board-column-" + status.id);
                 let boardColumnTitle = document.createElement("div");
                 boardColumnTitle.classList.add("board-column-title");
                 boardColumnTitle.innerHTML = status.title;
@@ -112,7 +112,6 @@ export let dom = {
         dataHandler.getBoards(function(boards){
             dom.clearBoards();
             dom.showBoards(boards);
-
         });
     },
     clearBoards: function (){
@@ -130,6 +129,7 @@ export let dom = {
 
             document.getElementById("board-container").appendChild(section)
             dom.renameBoard(board);
+            document.getElementById("board-container").appendChild(section);
         }
 
     },
@@ -169,13 +169,31 @@ export let dom = {
         let boardColumnContent = document.createElement("div");
         boardColumnContent.classList.add("board-column-content");
         boardColumnContent.id = "board-column-content-"+ cards[0].board_id +"-" + status.title;
+        dataHandler.getBoards((boards)=>dom.dragAndDrop(boards));
         for ( let card of cards) {
             if (card.status_id === status.title){
                 boardColumnContent.appendChild(dom.createCard(card));
+
             }
         }
+
     return boardColumnContent
-    }
+    },
+
+    dragAndDrop : function(boards) {
+        for ( let board of boards) {
+            dragula([document.getElementById("board-column-content-"+board.id+"-new"),
+            document.getElementById("board-column-content-"+board.id+"-in progress"),
+            document.getElementById("board-column-content-"+board.id+"-testing"),
+            document.getElementById("board-column-content-"+board.id+"-done")]);
+        }
+            for ( let board of boards){
+            console.log([document.getElementById("board-column-content-"+board.id+"-new"),
+            document.getElementById("board-column-content-"+board.id+"-in progress"),
+            document.getElementById("board-column-content-"+board.id+"-testing"),
+            document.getElementById("board-column-content-"+board.id+"-done")]);
+            }
+    },
 
 };
 
