@@ -25,7 +25,7 @@ export let dom = {
 
     renameBoard: function(board){
         document.getElementById("rename"+board.id).addEventListener("click", function () {
-            let newName = prompt("Please enter your new board name", board.title);
+            let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
             document.getElementById("title"+board.id).innerHTML=newName;
         })
     },
@@ -44,11 +44,12 @@ export let dom = {
             button1.innerHTML='Add card';
             button1.classList.add("board-add");
             button1.addEventListener("click", function(){
+                let newCardName = prompt("Please enter your new card name", "");
                 let newCard = { board_id: board.id,
                                 id: 13,
                                 order: 2,
                                 status_id: "new",
-                                title: "this is the newest card"};
+                                title: newCardName};
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
             });
             header.appendChild(button1);
