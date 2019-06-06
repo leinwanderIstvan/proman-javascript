@@ -60,6 +60,7 @@ def get_card_by_id(card_id):
 
 def get_last_card_id():
     cards = persistence.get_cards()
+    print(cards)
     max_id = 0
     for card in cards:
         if int(card.get("id")) > int(max_id):

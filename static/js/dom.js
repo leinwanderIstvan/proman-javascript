@@ -192,21 +192,36 @@ export let dom = {
             document.getElementById("board-column-content-"+board.id+"-testing"),
             document.getElementById("board-column-content-"+board.id+"-done")]);
         }
-            for ( let board of boards){
-            console.log([document.getElementById("board-column-content-"+board.id+"-new"),
-            document.getElementById("board-column-content-"+board.id+"-in progress"),
-            document.getElementById("board-column-content-"+board.id+"-testing"),
-            document.getElementById("board-column-content-"+board.id+"-done")]);
-            }
+
     },
 
 
     getCardDataFromHtml : function() {
-        let cards = document.querySelectorAll(".card-title");
-        for (let i =0; i<cards.length; i++) {
-            console.log(cards[i].innerHTML);
-            console.log(cards[i].parent().id);
-        }
+                let cards = document.querySelectorAll(".card-title");
+                let cardsData = [];
+                for (let i =0; i<cards.length; i++) {
+                    let status = 0;
+                    if (cards[i].parentElement.parentElement.getAttribute("id").split("-")[4]==="new") {
+                        status = 0;
+                    }
+                    else if ((cards[i].parentElement.parentElement.getAttribute("id").split("-")[4]==="in progress")) {
+                        status = 1;
+                    }
+                    else if ((cards[i].parentElement.parentElement.getAttribute("id").split("-")[4]==="testing")) {
+                        status = 2;
+                    }
+                    else if ((cards[i].parentElement.parentElement.getAttribute("id").split("-")[4]==="done")) {
+                        status = 3;
+                    }
+
+                    let cardData = {id: cards[i].parentElement.getAttribute("id").substring(4),
+                                    board_id: cards[i].parentElement.parentElement.getAttribute("id").split("-")[3],
+                                    title: cards[i].innerHTML,
+                                    status_id: status.toString()
+                    };
+                    cardsData.push(cardData);
+                }
+                console.log(cardsData);
     },
 
 };
