@@ -63,6 +63,13 @@ export let dataHandler = {
             callback(response);
         });
     },
+    getLastCardId: function (callback) {
+        let url = "/get-last-card-id";
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(response);
+        });
+    },
     getCard: function (cardId, callback) {
         let url = "/get-cards/" + cardId;
         this._api_get(url, (response)=>{

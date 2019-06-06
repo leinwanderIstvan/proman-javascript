@@ -43,15 +43,19 @@ export let dom = {
         let button1 = document.createElement("button");
             button1.innerHTML='Add card';
             button1.classList.add("board-add");
-            button1.addEventListener("click", function(){
+            dataHandler.getLastCardId(function (max_id){
+                console.log(max_id)
+            });
+            button1.addEventListener("click", ()=>{dataHandler.getLastCardId(function(max_id){
                 let newCardName = prompt("Please enter your new card name", "");
                 let newCard = { board_id: board.id,
-                                id: 13,
+                                id: max_id,
                                 order: 2,
                                 status_id: "new",
                                 title: newCardName};
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
             });
+    });
             header.appendChild(button1);
         let renameButton = document.createElement("button");
         renameButton.id="rename"+board.id;
@@ -142,7 +146,7 @@ export let dom = {
         cardRemove.classList.add("card-remove");
         cardRemove.innerHTML='<i class="fas fa-trash-alt"></i>';
         cardRemove.addEventListener("click", function () {
-            document.getElementById("card"+card.id).remove();
+            this.parentElement.remove();
         });
         elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
@@ -194,6 +198,15 @@ export let dom = {
             document.getElementById("board-column-content-"+board.id+"-testing"),
             document.getElementById("board-column-content-"+board.id+"-done")]);
             }
+    },
+
+
+    getCardDataFromHtml : function() {
+        let cards = document.querySelectorAll(".card-title");
+        for (let i =0; i<cards.length; i++) {
+            console.log(cards[i].innerHTML);
+            console.log(cards[i].parent().id);
+        }
     },
 
 };

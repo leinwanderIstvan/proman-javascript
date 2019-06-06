@@ -58,6 +58,12 @@ def get_card_by_id(card_id):
     return data_handler.get_card_by_id(card_id)
 
 
+@app.route("/get-last-card-id")
+@json_response
+def get_last_card_id():
+    return data_handler.get_last_card_id()
+
+
 def main():
     app.run(debug=True)
 

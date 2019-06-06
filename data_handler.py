@@ -53,8 +53,15 @@ def get_status_by_id(status_id):
 def get_card_by_id(card_id):
     persistence.clear_cache()
     cards = persistence.get_cards()
-    print(cards)
     for card in cards:
         if card.get("id") == int(card_id):
-            print(card)
             return card
+
+
+def get_last_card_id():
+    cards = persistence.get_cards()
+    max_id = 0
+    for card in cards:
+        if int(card.get("id")) > int(max_id):
+            max_id = int(card.get("id"))
+    return max_id+1
