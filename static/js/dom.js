@@ -193,10 +193,10 @@ export let dom = {
         boardColumnContent.classList.add("board-column-content");
         boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;
         dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+        cards.sort(function (a, b){return a.order-b.order});
         for (let card of cards) {
             if (card.status_id === status.title) {
                 boardColumnContent.appendChild(dom.createCard(card));
-
             }
         }
 
