@@ -47,12 +47,13 @@ export let dom = {
             if (headerClassList.contains("open")) {
                 headerClassList.remove("open");
                 headerClassList.add("closed");
-                let element = document.getElementById("section" + board.id);
-                element.removeChild(element.lastChild);
+                let element = document.getElementById("board-body" + board.id);
+                element.style.display = "none";
             } else {
                 headerClassList.remove("closed");
                 headerClassList.add("open");
-                dataHandler.getStatuses((statuses) => document.getElementById("section" + board.id).appendChild(dom.showBoardBody(statuses, board)));
+                let element = document.getElementById("board-body" + board.id);
+                element.removeAttribute("style");
             }
 
         });
