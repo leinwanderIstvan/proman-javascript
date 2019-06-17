@@ -226,7 +226,8 @@ export let dom = {
                 id: cards[i].parentElement.getAttribute("id").substring(4),
                 board_id: column.getAttribute("id").split("-")[3],
                 title: cards[i].innerHTML,
-                status_id: status.toString()
+                status_id: status.toString(),
+                order: cards[i].closest('.board-column-content').childElementCount
             };
             cardsData.push(cardData);
         }
