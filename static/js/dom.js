@@ -217,21 +217,30 @@ export let dom = {
     getCardDataFromHtml: function () {
         let cards = document.querySelectorAll(".card-title");
         let cardsData = [];
+        let counter = 0;
+        let order = 0;
         for (let i = 0; i < cards.length; i++) {
             const column = cards[i].closest('.board-column-content');
             const cardStatus = column.getAttribute("id").split("-")[4];
             const status = STATUSES[cardStatus];
+
+            if (cards[i].closest('.board-column-content').childElementCount > counter +1) {
+                order = counter;
+                counter += 1;}
+            else {
+                order = counter;
+                counter = 0;}
 
             let cardData = {
                 id: cards[i].parentElement.getAttribute("id").substring(4),
                 board_id: column.getAttribute("id").split("-")[3],
                 title: cards[i].innerHTML,
                 status_id: status.toString(),
-                order: cards[i].closest('.board-column-content').childElementCount
+                order: order
             };
             cardsData.push(cardData);
         }
-        console.log(cardsData);
+        return cardsData;
     },
 
 };
