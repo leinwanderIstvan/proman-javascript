@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request
 from util import json_response
 
 import data_handler
@@ -62,6 +62,13 @@ def get_card_by_id(card_id):
 @json_response
 def get_last_card_id():
     return data_handler.get_last_card_id()
+
+
+@app.route("/write-cards", methods=['POST'])
+@json_response
+def write_cards_to_file():
+    data_handler.write_cards_to_file(request.json['dict_data'])
+    return True
 
 
 def main():

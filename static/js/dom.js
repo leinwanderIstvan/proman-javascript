@@ -74,7 +74,6 @@ export let dom = {
         button1.innerHTML = 'Add card';
         button1.classList.add("board-add");
         dataHandler.getLastCardId(function (max_id) {
-            console.log(max_id)
         });
         button1.addEventListener("click", () => {
             dataHandler.getLastCardId(function (max_id) {
@@ -87,6 +86,8 @@ export let dom = {
                     title: newCardName
                 };
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
+                dataHandler.save_cards(function () { console.log('saved');
+                })
             });
         });
         header.appendChild(button1);
@@ -150,7 +151,7 @@ export let dom = {
             section.appendChild(dom.showBoardHeader(board));
             dataHandler.getStatuses((statuses) => section.appendChild(dom.showBoardBody(statuses, board)));
 
-            document.getElementById("board-container").appendChild(section)
+            document.getElementById("board-container").appendChild(section);
             dom.renameBoard(board);
             document.getElementById("board-container").appendChild(section);
         }
@@ -160,11 +161,12 @@ export let dom = {
         let elementCard = document.createElement("div");
         elementCard.classList.add("card");
         elementCard.id = "card" + card.id;
-        let cardRemove = document.createElement("div")
+        let cardRemove = document.createElement("div");
         cardRemove.classList.add("card-remove");
         cardRemove.innerHTML = '<i class="fas fa-trash-alt"></i>';
         cardRemove.addEventListener("click", function () {
             this.parentElement.remove();
+            dataHandler.save_cards(function () { console.log('saved')});
         });
         elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");

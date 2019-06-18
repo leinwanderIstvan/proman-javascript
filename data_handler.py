@@ -60,9 +60,13 @@ def get_card_by_id(card_id):
 
 def get_last_card_id():
     cards = persistence.get_cards()
-    print(cards)
     max_id = 0
     for card in cards:
         if int(card.get("id")) > int(max_id):
             max_id = int(card.get("id"))
     return max_id+1
+
+
+def write_cards_to_file(dict_data):
+    persistence.write_cards(dict_data=dict_data)
+    return

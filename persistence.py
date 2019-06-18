@@ -49,3 +49,26 @@ def get_boards(force=False):
 
 def get_cards(force=False):
     return _get_data('cards', CARDS_FILE, force)
+
+
+def _write_csv(file_name, dict_data):
+    csv_columns = csv_headers(file_name)
+    with open(file_name, 'w') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=csv_columns)
+        writer.writeheader()
+        for data in dict_data:
+            writer.writerow(data)
+
+
+def csv_headers(file_name):
+    if file_name == CARDS_FILE:
+        return ['id', 'board_id', 'title', 'status_id', 'order']
+    elif file_name == BOARDS_FILE:
+        return ['id', 'title']
+    elif file_name == STATUSES_FILE:
+        return ['id', 'title']
+
+
+def write_cards(dict_data):
+    _write_csv(CARDS_FILE, dict_data)
+

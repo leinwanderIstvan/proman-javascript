@@ -3,6 +3,8 @@
 
 // (watch out: when you would like to use a property/function of an object from the
 // object itself then you must use the 'this' keyword before. For example: 'this._data' below)
+import {dom} from "./dom.js";
+
 export let dataHandler = {
     _data: {}, // it contains the boards and their cards and statuses. It is not called from outside.
     _api_get: function (url, callback) {
@@ -13,10 +15,22 @@ export let dataHandler = {
             method: 'GET',
             credentials: 'same-origin'
         })
-        .then(response => response.json())  // parse the response as JSON
+        .then(response => response.json()) // parse the response as JSON
         .then(json_response => callback(json_response));  // Call the `callback` with the returned object
     },
     _api_post: function (url, data, callback) {
+        fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(json_response => callback(json_response));
         // it is not called from outside
         // sends the data to the API, and calls callback function
     },
@@ -72,7 +86,7 @@ export let dataHandler = {
     },
     getCard: function (cardId, callback) {
         let url = "/get-cards/" + cardId;
-        this._api_get(url, (response)=>{
+        this._api_get(url, (response)=>{dict_data
             this._data = response;
             callback(cardId, response);
         })
@@ -83,6 +97,11 @@ export let dataHandler = {
     },
     createNewCard: function (cardTitle, boardId, statusId, callback) {
         // creates new card, saves it and calls the callback function with its data
+    },
+
+    save_cards: function (callback) {
+        let data = {dict_data: dom.getCardDataFromHtml()};
+        dataHandler._api_post('/write-cards', data, callback);
     }
     // here comes more features
 };
