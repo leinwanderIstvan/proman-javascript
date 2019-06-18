@@ -86,8 +86,7 @@ export let dom = {
                     title: newCardName
                 };
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
-                dataHandler.save_cards(function () { console.log('saved');
-                })
+                dataHandler.save_cards();
             });
         });
         header.appendChild(button1);
@@ -120,6 +119,7 @@ export let dom = {
             //boardColumnContent.appendChild(dom.createCard());
             boardBody.appendChild(boardColumn);
         }
+        dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
         return boardBody;
 
     },
@@ -166,7 +166,7 @@ export let dom = {
         cardRemove.innerHTML = '<i class="fas fa-trash-alt"></i>';
         cardRemove.addEventListener("click", function () {
             this.parentElement.remove();
-            dataHandler.save_cards(function () { console.log('saved')});
+            dataHandler.save_cards();
         });
         elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
@@ -194,8 +194,10 @@ export let dom = {
         let boardColumnContent = document.createElement("div");
         boardColumnContent.classList.add("board-column-content");
         boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;
-        dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
-        cards.sort(function (a, b){return a.order-b.order});
+        //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+        cards.sort(function (a, b) {
+            return a.order - b.order
+        });
         for (let card of cards) {
             if (card.status_id === status.title) {
                 boardColumnContent.appendChild(dom.createCard(card));
@@ -210,7 +212,11 @@ export let dom = {
             dragula([document.getElementById("board-column-content-" + board.id + "-new"),
                 document.getElementById("board-column-content-" + board.id + "-in progress"),
                 document.getElementById("board-column-content-" + board.id + "-testing"),
-                document.getElementById("board-column-content-" + board.id + "-done")]);
+                document.getElementById("board-column-content-" + board.id + "-done")])
+                .on('drop', function () {
+                    dataHandler.save_cards(function () {
+                    })
+                });
         }
 
     },
@@ -223,24 +229,27 @@ export let dom = {
         let order = 0;
         for (let i = 0; i < cards.length; i++) {
             const column = cards[i].closest('.board-column-content');
-            const cardStatus = column.getAttribute("id").split("-")[4];
-            const status = STATUSES[cardStatus];
+            if (column != null) {
+                const cardStatus = column.getAttribute("id").split("-")[4];
+                const status = STATUSES[cardStatus];
 
-            if (cards[i].closest('.board-column-content').childElementCount > counter +1) {
-                order = counter;
-                counter += 1;}
-            else {
-                order = counter;
-                counter = 0;}
+                if (cards[i].closest('.board-column-content').childElementCount > counter + 1) {
+                    order = counter;
+                    counter += 1;
+                } else {
+                    order = counter;
+                    counter = 0;
+                }
 
-            let cardData = {
-                id: cards[i].parentElement.getAttribute("id").substring(4),
-                board_id: column.getAttribute("id").split("-")[3],
-                title: cards[i].innerHTML,
-                status_id: status.toString(),
-                order: order
-            };
-            cardsData.push(cardData);
+                let cardData = {
+                    id: cards[i].parentElement.getAttribute("id").substring(4),
+                    board_id: column.getAttribute("id").split("-")[3],
+                    title: cards[i].innerHTML,
+                    status_id: status.toString(),
+                    order: order
+                };
+                cardsData.push(cardData);
+            }
         }
         return cardsData;
     },
