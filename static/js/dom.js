@@ -94,7 +94,13 @@ export let dom = {
         renameButton.id = "rename" + board.id;
         renameButton.innerHTML = "Rename";
         header.appendChild(renameButton);
-
+        const deleteBoardButton = document.createElement("button");
+        deleteBoardButton.id = "delete-"+ board.id;
+        deleteBoardButton.innerHTML = "Delete board";
+        deleteBoardButton.addEventListener("click", function () {
+           document.getElementById("section" + board.id).remove()
+        });
+        header.appendChild(deleteBoardButton);
         header.appendChild(dom.createBoardToggleButton(board));
         return header
 
@@ -115,6 +121,10 @@ export let dom = {
             boardColumnTitle.classList.add("board-column-title");
             boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
+            let boardColumnContent = document.createElement("div");
+            boardColumnContent.classList.add("board-column-content");
+            boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
+            boardColumn.appendChild(boardColumnContent);
             dataHandler.getCardsByBoardId(board.id, (cards) => boardColumn.appendChild(dom.selectCards(status, cards)));
             //boardColumnContent.appendChild(dom.createCard());
             boardBody.appendChild(boardColumn);
@@ -191,16 +201,16 @@ export let dom = {
 
 
     selectCards: function (status, cards) {
-        let boardColumnContent = document.createElement("div");
+/*        let boardColumnContent = document.createElement("div");
         boardColumnContent.classList.add("board-column-content");
-        boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;
+        boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;*/
         //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
         cards.sort(function (a, b) {
             return a.order - b.order
         });
         for (let card of cards) {
             if (card.status_id === status.title) {
-                boardColumnContent.appendChild(dom.createCard(card));
+                document.getElementById("board-column-content-" + cards[0].board_id + "-" + status.title).appendChild(dom.createCard(card));
             }
         }
 
