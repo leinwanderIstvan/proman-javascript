@@ -123,7 +123,7 @@ export let dom = {
             boardColumnTitle.classList.add("board-column-title");
             boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
-            let boardColumnContent = document.createElement(boardColumn.appendChild("div"));
+            let boardColumnContent = document.createElement("div");
             boardColumnContent.classList.add("board-column-content");
             boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
             boardColumn.appendChild(boardColumnContent);
@@ -216,7 +216,6 @@ export let dom = {
             }
         }
 
-        //return boardColumnContent
     },
 
     dragAndDrop: function (boards) {
@@ -270,7 +269,7 @@ export let dom = {
         let boardsData = [];
         let boards = document.querySelectorAll(".board");
         for (let i =0; i < boards.length; i++){
-            let id = boards[i].getAttribute("id").substring(7)
+            let id = boards[i].getAttribute("id").substring(7);
             let boardData = {
                 id: id,
                 title: document.getElementById("title" + id).innerHTML
