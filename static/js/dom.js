@@ -34,6 +34,7 @@ export let dom = {
         document.getElementById("rename" + board.id).addEventListener("click", function () {
             let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
             document.getElementById("title" + board.id).innerHTML = newName;
+            dataHandler.save_boards()
         })
     },
 
@@ -99,7 +100,8 @@ export let dom = {
         deleteBoardButton.id = "delete-"+ board.id;
         deleteBoardButton.innerHTML = "Delete board";
         deleteBoardButton.addEventListener("click", function () {
-           document.getElementById("section" + board.id).remove()
+           document.getElementById("section" + board.id).remove();
+           dataHandler.save_boards()
         });
         header.appendChild(deleteBoardButton);
         header.appendChild(dom.createBoardToggleButton(board));
