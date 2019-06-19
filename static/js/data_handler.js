@@ -84,6 +84,16 @@ export let dataHandler = {
             callback(response);
         });
     },
+
+    getLastBoardId: function (callback) {
+        let url = "get-last-board-id";
+        this._api_get(url, (response) => {
+            this._data = response;
+            callback(response);
+        });
+    },
+
+
     getCard: function (cardId, callback) {
         let url = "/get-cards/" + cardId;
         this._api_get(url, (response)=>{dict_data

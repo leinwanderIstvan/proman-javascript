@@ -64,6 +64,12 @@ def get_last_card_id():
     return data_handler.get_last_card_id()
 
 
+@app.route("/get-last-board-id")
+@json_response
+def get_last_board_id():
+    return data_handler.get_last_board_id()
+
+
 @app.route("/write-cards", methods=['POST'])
 @json_response
 def write_cards_to_file():

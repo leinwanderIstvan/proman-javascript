@@ -124,11 +124,11 @@ export let dom = {
             boardColumnTitle.classList.add("board-column-title");
             boardColumnTitle.innerHTML = status.title;
             boardColumn.appendChild(boardColumnTitle);
-            let boardColumnContent = document.createElement("div");
+            let boardColumnContent = document.createElement(boardColumn.appendChild("div"));
             boardColumnContent.classList.add("board-column-content");
             boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
             boardColumn.appendChild(boardColumnContent);
-            dataHandler.getCardsByBoardId(board.id, (cards) => boardColumn.appendChild(dom.selectCards(status, cards)));
+            dataHandler.getCardsByBoardId(board.id, (cards) => dom.selectCards(status, cards));
             //boardColumnContent.appendChild(dom.createCard());
             boardBody.appendChild(boardColumn);
         }
