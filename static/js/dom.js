@@ -87,6 +87,7 @@ export let dom = {
                 };
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
                 dataHandler.save_cards();
+                dataHandler.save_boards();
             });
         });
         header.appendChild(button1);
@@ -263,6 +264,20 @@ export let dom = {
         }
         return cardsData;
     },
+
+    getBoardDataFromHtml: function () {
+        let boardsData = [];
+        let boards = document.querySelectorAll(".board");
+        for (let i =0; i < boards.length; i++){
+            let id = boards[i].getAttribute("id").substring(7)
+            let boardData = {
+                id: id,
+                title: document.getElementById("title" + id).innerHTML
+            };
+            boardsData.push(boardData);
+        }
+        return boardsData
+    }
 
 };
 
