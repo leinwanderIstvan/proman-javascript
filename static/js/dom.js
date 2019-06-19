@@ -148,6 +148,8 @@ export let dom = {
         dataHandler.getBoards(function (boards) {
             dom.clearBoards();
             dom.showBoards(boards);
+            dom.boardDragAndDrop();
+            dom.dragAndDrop(boards);
         });
     },
     clearBoards: function () {
@@ -216,6 +218,14 @@ export let dom = {
             }
         }
 
+    },
+
+    boardDragAndDrop: function(){
+      dragula([document.getElementById("board-container")],{
+          moves: function (el, container, handle) {
+            return handle.classList.contains('board-header')
+          }
+      })
     },
 
     dragAndDrop: function (boards) {
