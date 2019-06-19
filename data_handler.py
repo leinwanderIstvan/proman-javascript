@@ -70,3 +70,9 @@ def get_last_card_id():
 def write_cards_to_file(dict_data):
     persistence.write_cards(dict_data=dict_data)
     return
+
+
+def write_boards_to_file(dict_data):
+    persistence.write_boards(dict_data=dict_data)
+    return
+

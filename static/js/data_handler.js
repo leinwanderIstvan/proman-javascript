@@ -102,6 +102,11 @@ export let dataHandler = {
     save_cards: function (callback) {
         let data = {dict_data: dom.getCardDataFromHtml()};
         dataHandler._api_post('/write-cards', data, callback);
+    },
+
+    save_boards: function (callback) {
+        let data = {dict_data: dom.getBoardDataFromHtml()};
+        dataHandler._api_post('/write-boards', data, callback);
     }
     // here comes more features
 };

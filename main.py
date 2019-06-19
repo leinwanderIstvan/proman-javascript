@@ -71,6 +71,13 @@ def write_cards_to_file():
     return True
 
 
+@app.route("/write-boards", methods=['POST'])
+@json_response
+def write_boards_to_file():
+    data_handler.write_boards_to_file(request.json['dict_data'])
+    return True
+
+
 def main():
     app.run(debug=True)
 
