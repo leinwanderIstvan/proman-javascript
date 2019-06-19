@@ -87,7 +87,6 @@ export let dom = {
                 };
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
                 dataHandler.save_cards();
-                dataHandler.save_boards();
             });
         });
         header.appendChild(button1);
