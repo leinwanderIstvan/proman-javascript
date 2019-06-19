@@ -72,3 +72,6 @@ def csv_headers(file_name):
 def write_cards(dict_data):
     _write_csv(CARDS_FILE, dict_data)
 
+
+def write_boards(dict_data):
+    _write_csv(BOARDS_FILE, dict_data)
