@@ -67,6 +67,15 @@ def get_last_card_id():
     return max_id+1
 
 
+def get_last_board_id():
+    boards = persistence.get_boards()
+    max_id = 0
+    for board in boards:
+        if int(board.get("id")) > int(max_id):
+            max_id = int(board.get("id"))
+    return max_id
+
+
 def write_cards_to_file(dict_data):
     persistence.write_cards(dict_data=dict_data)
     return
