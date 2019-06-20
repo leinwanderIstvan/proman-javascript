@@ -30,13 +30,13 @@ export let dom = {
             // This function should run once, when the page is loaded.
         },
 
-    renameBoard: function (board) {
-        document.getElementById("rename" + board.id).addEventListener("click", function () {
-            let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
-            document.getElementById("title" + board.id).innerHTML = newName;
-            dataHandler.save_boards()
-        })
-    },
+        renameBoard: function (board) {
+            document.getElementById("rename" + board.id).addEventListener("click", function () {
+                let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
+                document.getElementById("title" + board.id).innerHTML = newName;
+                dataHandler.save_boards()
+            })
+        },
 
         createBoardToggleButton: function (board) {
             let button = document.createElement("button");
@@ -62,78 +62,77 @@ export let dom = {
         },
 
 
-    showBoardHeader: function (board) {
-        const header = document.createElement("div");
-        header.classList.add("board-header");
-        header.classList.add("open");
-        header.setAttribute("id", "board-header" + board.id);
-        let title = document.createElement("span");
-        title.innerHTML = board.title;
-        title.classList.add("board-title");
-        title.id = "title" + board.id;
-        header.appendChild(title);
-        let button1 = document.createElement("button");
-        button1.innerHTML = 'Add card';
-        button1.classList.add("board-add");
-        dataHandler.getLastCardId(function (max_id) {
-        });
-        button1.addEventListener("click", () => {
-            dataHandler.getLastCardId(function (max_id) {
-                let newCardName = prompt("Please enter your new card name", "");
-                let newCard = {
-                    board_id: board.id,
-                    id: max_id,
-                    order: 2,
-                    status_id: "new",
-                    title: newCardName
-                };
-                document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
-                dataHandler.save_cards();
+        showBoardHeader: function (board) {
+            const header = document.createElement("div");
+            header.classList.add("board-header");
+            header.classList.add("open");
+            header.setAttribute("id", "board-header" + board.id);
+            let title = document.createElement("span");
+            title.innerHTML = board.title;
+            title.classList.add("board-title");
+            title.id = "title" + board.id;
+            header.appendChild(title);
+            let button1 = document.createElement("button");
+            button1.innerHTML = 'Add card';
+            button1.classList.add("board-add");
+            button1.addEventListener("click", () => {
+                dataHandler.getLastCardId(function (max_id) {
+                    let newCardName = prompt("Please enter your new card name", "");
+                    let newCard = {
+                        board_id: board.id,
+                        id: max_id,
+                        order: 2,
+                        status_id: "new",
+                        title: newCardName
+                    };
+                    document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
+                    dataHandler.save_cards();
+                });
             });
-        });
-        header.appendChild(button1);
-        let renameButton = document.createElement("button");
-        renameButton.id = "rename" + board.id;
-        renameButton.innerHTML = "Rename";
-        header.appendChild(renameButton);
-        const deleteBoardButton = document.createElement("button");
-        deleteBoardButton.id = "delete-"+ board.id;
-        deleteBoardButton.innerHTML = "Delete board";
-        deleteBoardButton.addEventListener("click", function () {
-           document.getElementById("section" + board.id).remove();
-           dataHandler.save_boards()
-        });
-        header.appendChild(deleteBoardButton);
-        header.appendChild(dom.createBoardToggleButton(board));
-        return header
+            header.appendChild(button1);
+            let renameButton = document.createElement("button");
+            renameButton.id = "rename" + board.id;
+            renameButton.innerHTML = "Rename";
+            header.appendChild(renameButton);
+            const deleteBoardButton = document.createElement("button");
+            deleteBoardButton.id = "delete-" + board.id;
+            deleteBoardButton.innerHTML = "Delete board";
+            deleteBoardButton.addEventListener("click", function () {
+                document.getElementById("section" + board.id).remove();
+                dataHandler.save_boards()
+            });
+            header.appendChild(deleteBoardButton);
+            header.appendChild(dom.createBoardToggleButton(board));
+            return header
 
 
         },
-    showBoardBody: function (statuses, board) {
-        if (document.getElementById("board-header" + board.id).classList[1] !== "open") {
-            return;
-        }
-        let boardBody = document.createElement("div");
-        boardBody.classList.add("board-columns");
-        boardBody.setAttribute("id", "board-body" + board.id);
-        for (let status of statuses) {
-            let boardColumn = document.createElement("div");
-            boardColumn.classList.add("board-column");
-            boardColumn.setAttribute("id", "board-column-" + status.id);
-            let boardColumnTitle = document.createElement("div");
-            boardColumnTitle.classList.add("board-column-title");
-            boardColumnTitle.innerHTML = status.title;
-            boardColumn.appendChild(boardColumnTitle);
-            let boardColumnContent = document.createElement(boardColumn.appendChild("div"));
-            boardColumnContent.classList.add("board-column-content");
-            boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
-            boardColumn.appendChild(boardColumnContent);
-            dataHandler.getCardsByBoardId(board.id, (cards) => dom.selectCards(status, cards));
-            //boardColumnContent.appendChild(dom.createCard());
-            boardBody.appendChild(boardColumn);
-        }
-        dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
-        return boardBody;
+        showBoardBody: function (statuses, board) {
+            console.log(board);
+            console.log(document.getElementById("board-header" + board.id).classList[1]);
+            if (document.getElementById("board-header" + board.id).classList[1] !== "open") {
+                return;
+            }
+            let boardBody = document.createElement("div");
+            boardBody.classList.add("board-columns");
+            boardBody.setAttribute("id", "board-body" + board.id);
+            for (let status of statuses) {
+                let boardColumn = document.createElement("div");
+                boardColumn.classList.add("board-column");
+                boardColumn.setAttribute("id", "board-column-" + status.id);
+                let boardColumnTitle = document.createElement("div");
+                boardColumnTitle.classList.add("board-column-title");
+                boardColumnTitle.innerHTML = status.title;
+                boardColumn.appendChild(boardColumnTitle);
+                let boardColumnContent = document.createElement("div");
+                boardColumnContent.classList.add("board-column-content");
+                boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
+                boardColumn.appendChild(boardColumnContent);
+                dataHandler.getCardsByBoardId(board.id, (cards) => dom.selectCards(status, cards));
+                boardBody.appendChild(boardColumn);
+            }
+            dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+            return boardBody;
 
         },
 
@@ -204,21 +203,20 @@ export let dom = {
         // here comes more features
 
 
-    selectCards: function (status, cards) {
-/*        let boardColumnContent = document.createElement("div");
-        boardColumnContent.classList.add("board-column-content");
-        boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;*/
-        //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
-        cards.sort(function (a, b) {
-            return a.order - b.order
-        });
-        for (let card of cards) {
-            if (card.status_id === status.title) {
-                document.getElementById("board-column-content-" + cards[0].board_id + "-" + status.title).appendChild(dom.createCard(card));
+        selectCards: function (status, cards) {
+            /*        let boardColumnContent = document.createElement("div");
+                    boardColumnContent.classList.add("board-column-content");
+                    boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;*/
+            //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+            cards.sort(function (a, b) {
+                return a.order - b.order
+            });
+            for (let card of cards) {
+                if (card.status_id === status.title) {
+                    document.getElementById("board-column-content-" + cards[0].board_id + "-" + status.title).appendChild(dom.createCard(card));
+                }
             }
-        }
 
-            return boardColumnContent
         },
 
         dragAndDrop: function (boards) {
@@ -241,8 +239,19 @@ export let dom = {
             newBoardButton.innerHTML = "Create new board";
             newBoardButton.classList.add("createNewBoardButton");
             newBoardButton.addEventListener('click', function () {
+                    dataHandler.getLastBoardId(function (max_id) {
+                            let newBoardTitle = prompt('Enter your new board name:', 'Board');
+                            let newBoard = {
+                                'id':max_id + 1,
+                                'title':newBoardTitle
+                            };
+                            dataHandler.getBoards((boards)=> dom.addNewBoard(boards,newBoard));
+                            location.reload();
+                        }
+                    );
+                }
+            );
 
-            });
             return newBoardButton;
         },
 
@@ -257,7 +266,6 @@ export let dom = {
                 if (column != null) {
                     const cardStatus = column.getAttribute("id").split("-")[4];
                     const status = STATUSES[cardStatus];
-
                     if (cards[i].closest('.board-column-content').childElementCount > counter + 1) {
                         order = counter;
                         counter += 1;
@@ -280,21 +288,27 @@ export let dom = {
         }
         ,
 
+        getBoardDataFromHtml: function () {
+            let boardsData = [];
+            let boards = document.querySelectorAll(".board");
+            for (let i = 0; i < boards.length; i++) {
+                let id = boards[i].getAttribute("id").substring(7)
+                let boardData = {
+                    id: id,
+                    title: document.getElementById("title" + id).innerHTML
+                };
+                boardsData.push(boardData);
+            }
+            return boardsData
+        },
+
+
+        addNewBoard: function (boards,newBoard) {
+            boards.push(newBoard);
+            dataHandler.createNewBoard(boards)
+        }
+
+
     }
 ;
-    getBoardDataFromHtml: function () {
-        let boardsData = [];
-        let boards = document.querySelectorAll(".board");
-        for (let i =0; i < boards.length; i++){
-            let id = boards[i].getAttribute("id").substring(7)
-            let boardData = {
-                id: id,
-                title: document.getElementById("title" + id).innerHTML
-            };
-            boardsData.push(boardData);
-        }
-        return boardsData
-    }
-
-};
 
