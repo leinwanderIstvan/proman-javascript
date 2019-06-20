@@ -106,33 +106,32 @@ export let dom = {
             return header
 
 
-        },
-        showBoardBody: function (statuses, board) {
-            console.log(board);
-            console.log(document.getElementById("board-header" + board.id).classList[1]);
-            if (document.getElementById("board-header" + board.id).classList[1] !== "open") {
-                return;
-            }
-            let boardBody = document.createElement("div");
-            boardBody.classList.add("board-columns");
-            boardBody.setAttribute("id", "board-body" + board.id);
-            for (let status of statuses) {
-                let boardColumn = document.createElement("div");
-                boardColumn.classList.add("board-column");
-                boardColumn.setAttribute("id", "board-column-" + status.id);
-                let boardColumnTitle = document.createElement("div");
-                boardColumnTitle.classList.add("board-column-title");
-                boardColumnTitle.innerHTML = status.title;
-                boardColumn.appendChild(boardColumnTitle);
-                let boardColumnContent = document.createElement("div");
-                boardColumnContent.classList.add("board-column-content");
-                boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
-                boardColumn.appendChild(boardColumnContent);
-                dataHandler.getCardsByBoardId(board.id, (cards) => dom.selectCards(status, cards));
-                boardBody.appendChild(boardColumn);
-            }
-            dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
-            return boardBody;
+    },
+    showBoardBody: function (statuses, board) {
+        if (document.getElementById("board-header" + board.id).classList[1] !== "open") {
+            return;
+        }
+        let boardBody = document.createElement("div");
+        boardBody.classList.add("board-columns");
+        boardBody.setAttribute("id", "board-body" + board.id);
+        for (let status of statuses) {
+            let boardColumn = document.createElement("div");
+            boardColumn.classList.add("board-column");
+            boardColumn.setAttribute("id", "board-column-" + status.id);
+            let boardColumnTitle = document.createElement("div");
+            boardColumnTitle.classList.add("board-column-title");
+            boardColumnTitle.innerHTML = status.title;
+            boardColumn.appendChild(boardColumnTitle);
+            let boardColumnContent = document.createElement("div");
+            boardColumnContent.classList.add("board-column-content");
+            boardColumnContent.id = "board-column-content-" + board.id + "-" + status.title;
+            boardColumn.appendChild(boardColumnContent);
+            dataHandler.getCardsByBoardId(board.id, (cards) => dom.selectCards(status, cards));
+            //boardColumnContent.appendChild(dom.createCard());
+            boardBody.appendChild(boardColumn);
+        }
+        dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+        return boardBody;
 
         },
 
@@ -218,6 +217,15 @@ export let dom = {
             }
 
         },
+    },
+
+    boardDragAndDrop: function(){
+      dragula([document.getElementById("board-container")],{
+          moves: function (el, container, handle) {
+            return handle.classList.contains('board-header')
+          }
+      })
+    },
 
         dragAndDrop: function (boards) {
             for (let board of boards) {
@@ -307,6 +315,19 @@ export let dom = {
             boards.push(newBoard);
             dataHandler.createNewBoard(boards)
         }
+    getBoardDataFromHtml: function () {
+        let boardsData = [];
+        let boards = document.querySelectorAll(".board");
+        for (let i =0; i < boards.length; i++){
+            let id = boards[i].getAttribute("id").substring(7);
+            let boardData = {
+                id: id,
+                title: document.getElementById("title" + id).innerHTML
+            };
+            boardsData.push(boardData);
+        }
+        return boardsData
+    }
 
 
     }
