@@ -34,7 +34,7 @@ export let dom = {
             document.getElementById("rename" + board.id).addEventListener("click", function () {
                 let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
                 document.getElementById("title" + board.id).innerHTML = newName;
-                dataHandler.save_boards()
+                dataHandler.saveBoards()
             })
         },
 
@@ -222,15 +222,16 @@ export let dom = {
                 }
             }
 
-    },
+        },
 
-    boardDragAndDrop: function(){
-      dragula([document.getElementById("board-container")],{
-          moves: function (el, container, handle) {
-            return handle.classList.contains('board-header')
-          }
-      })
-    },
+
+        boardDragAndDrop: function(){
+          dragula([document.getElementById("board-container")],{
+              moves: function (el, container, handle) {
+                return handle.classList.contains('board-header')
+              }
+          })
+        },
 
     dragAndDrop: function (boards) {
         for (let board of boards) {
@@ -247,26 +248,26 @@ export let dom = {
     },
 
 
-        createNewBoardButton: function () {
-            let newBoardButton = document.createElement("button");
-            newBoardButton.innerHTML = "Create new board";
-            newBoardButton.classList.add("createNewBoardButton");
-            newBoardButton.addEventListener('click', function () {
-                    dataHandler.getLastBoardId(function (max_id) {
-                            let newBoardTitle = prompt('Enter your new board name:', 'Board');
-                            let newBoard = {
-                                'id':max_id + 1,
-                                'title':newBoardTitle
-                            };
-                            dataHandler.getBoards((boards)=> dom.addNewBoard(boards,newBoard));
-                            location.reload();
-                        }
-                    );
-                }
-            );
+            createNewBoardButton: function () {
+                let newBoardButton = document.createElement("button");
+                newBoardButton.innerHTML = "Create new board";
+                newBoardButton.classList.add("createNewBoardButton");
+                newBoardButton.addEventListener('click', function () {
+                        dataHandler.getLastBoardId(function (max_id) {
+                                let newBoardTitle = prompt('Enter your new board name:', 'Board');
+                                let newBoard = {
+                                    'id':max_id + 1,
+                                    'title':newBoardTitle
+                                };
+                                dataHandler.getBoards((boards)=> dom.addNewBoard(boards,newBoard));
+                                location.reload();
+                            }
+                        );
+                    }
+                );
 
-            return newBoardButton;
-        },
+                return newBoardButton;
+            },
 
 
 
