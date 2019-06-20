@@ -13,6 +13,10 @@ def index():
     """
     return render_template('index.html')
 
+@app.route("/archive-cards")
+def archive_card():
+    return render_template('archive-cards.html',cards=cards)
+
 
 @app.route("/get-boards")
 @json_response

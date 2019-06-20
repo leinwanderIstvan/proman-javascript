@@ -201,48 +201,22 @@ export let dom = {
         },
         // here comes more features
 
-
-        selectCards: function (status, cards) {
-            /*        let boardColumnContent = document.createElement("div");
-                    boardColumnContent.classList.add("board-column-content");
-                    boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;*/
-            //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
-            cards.sort(function (a, b) {
-                return a.order - b.order
-            });
-            for (let card of cards) {
-                if (card.status_id === status.title) {
-                    document.getElementById("board-column-content-" + cards[0].board_id + "-" + status.title).appendChild(dom.createCard(card));
-                }
+        getBoardDataFromHtml: function () {
+            let boardsData = [];
+            let boards = document.querySelectorAll(".board");
+            for (let i = 0; i < boards.length; i++) {
+                let id = boards[i].getAttribute("id").substring(7)
+                let boardData = {
+                    id: id,
+                    title: document.getElementById("title" + id).innerHTML
+                };
+                boardsData.push(boardData);
             }
-
-        },
-    },
-
-    boardDragAndDrop: function(){
-      dragula([document.getElementById("board-container")],{
-          moves: function (el, container, handle) {
-            return handle.classList.contains('board-header')
-          }
-      })
-    },
-
-        dragAndDrop: function (boards) {
-            for (let board of boards) {
-                dragula([document.getElementById("board-column-content-" + board.id + "-new"),
-                    document.getElementById("board-column-content-" + board.id + "-in progress"),
-                    document.getElementById("board-column-content-" + board.id + "-testing"),
-                    document.getElementById("board-column-content-" + board.id + "-done")])
-                    .on('drop', function () {
-                        dataHandler.save_cards(function () {
-                        })
-                    });
-            }
-
+            return boardsData
         },
 
 
-        createNewBoardButton: function () {
+    createNewBoardButton: function () {
             let newBoardButton = document.createElement("button");
             newBoardButton.innerHTML = "Create new board";
             newBoardButton.classList.add("createNewBoardButton");
@@ -262,6 +236,52 @@ export let dom = {
 
             return newBoardButton;
         },
+
+
+    boardDragAndDrop: function(){
+      dragula([document.getElementById("board-container")],{
+          moves: function (el, container, handle) {
+            return handle.classList.contains('board-header')
+          }
+      })
+    },
+
+
+        selectCards: function (status, cards) {
+            /*        let boardColumnContent = document.createElement("div");
+                    boardColumnContent.classList.add("board-column-content");
+                    boardColumnContent.id = "board-column-content-" + cards[0].board_id + "-" + status.title;*/
+            //dataHandler.getBoards((boards) => dom.dragAndDrop(boards));
+            cards.sort(function (a, b) {
+                return a.order - b.order
+            });
+            for (let card of cards) {
+                if (card.status_id === status.title) {
+                    document.getElementById("board-column-content-" + cards[0].board_id + "-" + status.title).appendChild(dom.createCard(card));
+                }
+            }
+
+        },
+    },
+
+
+
+        dragAndDrop: function (boards) {
+            for (let board of boards) {
+                dragula([document.getElementById("board-column-content-" + board.id + "-new"),
+                    document.getElementById("board-column-content-" + board.id + "-in progress"),
+                    document.getElementById("board-column-content-" + board.id + "-testing"),
+                    document.getElementById("board-column-content-" + board.id + "-done")])
+                    .on('drop', function () {
+                        dataHandler.save_cards(function () {
+                        })
+                    });
+            }
+
+        },
+
+
+
 
 
         getCardDataFromHtml: function () {
@@ -296,38 +316,14 @@ export let dom = {
         }
         ,
 
-        getBoardDataFromHtml: function () {
-            let boardsData = [];
-            let boards = document.querySelectorAll(".board");
-            for (let i = 0; i < boards.length; i++) {
-                let id = boards[i].getAttribute("id").substring(7)
-                let boardData = {
-                    id: id,
-                    title: document.getElementById("title" + id).innerHTML
-                };
-                boardsData.push(boardData);
-            }
-            return boardsData
-        },
+
 
 
         addNewBoard: function (boards,newBoard) {
             boards.push(newBoard);
             dataHandler.createNewBoard(boards)
         }
-    getBoardDataFromHtml: function () {
-        let boardsData = [];
-        let boards = document.querySelectorAll(".board");
-        for (let i =0; i < boards.length; i++){
-            let id = boards[i].getAttribute("id").substring(7);
-            let boardData = {
-                id: id,
-                title: document.getElementById("title" + id).innerHTML
-            };
-            boardsData.push(boardData);
-        }
-        return boardsData
-    }
+
 
 
     }
