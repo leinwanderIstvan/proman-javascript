@@ -30,7 +30,7 @@ export let dataHandler = {
             body: JSON.stringify(data),
         })
         .then(response => response.json())
-        .then(json_response => callback(json_response));
+        //.then(json_response => callback(json_response));
         // it is not called from outside
         // sends the data to the API, and calls callback function
     },
@@ -109,14 +109,28 @@ export let dataHandler = {
         // creates new card, saves it and calls the callback function with its data
     },
 
-    save_cards: function (callback) {
-        let data = {dict_data: dom.getCardDataFromHtml()};
-        dataHandler._api_post('/write-cards', data, callback);
+    saveCards: function () {
+        let data = {dict_data: dom.getCardDataFromHtml(document.querySelectorAll(".card-title"))};
+        dataHandler._api_post('/write-cards', data);
     },
 
-    save_boards: function (callback) {
+    saveBoards: function () {
         let data = {dict_data: dom.getBoardDataFromHtml()};
-        dataHandler._api_post('/write-boards', data, callback);
+        dataHandler._api_post('/write-boards', data);
+    },
+
+    saveArchive: function (archive) {
+        let data = {dict_data: archive};
+        dataHandler._api_post('/write-archive', data);
+    },
+
+    getArchive: function (callback) {
+        let url = "/get-archive";
+        this._api_get(url, (response)=>{
+            this._data = response;
+            callback(response);
+        });
     }
+
     // here comes more features
 };

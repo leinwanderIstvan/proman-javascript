@@ -31,6 +31,7 @@ def get_cards_for_board(board_id):
 
 
 def get_board_by_id(board_id):
+    persistence.clear_cache()
     boards = persistence.get_boards(force=True)
     for board in boards:
         if board.get("id") == str(board_id):
@@ -59,6 +60,7 @@ def get_card_by_id(card_id):
 
 
 def get_last_card_id():
+    persistence.clear_cache()
     cards = persistence.get_cards()
     max_id = 0
     for card in cards:
@@ -68,6 +70,7 @@ def get_last_card_id():
 
 
 def get_last_board_id():
+    persistence.clear_cache()
     boards = persistence.get_boards()
     max_id = 0
     for board in boards:
@@ -85,3 +88,12 @@ def write_boards_to_file(dict_data):
     persistence.write_boards(dict_data=dict_data)
     return
 
+
+def write_archive_to_file(dict_data):
+    persistence.write_archive(dict_data=dict_data)
+    return
+
+
+def get_archive():
+    persistence.clear_cache()
+    return persistence.get_archived_cards()

@@ -34,7 +34,7 @@ export let dom = {
         document.getElementById("rename" + board.id).addEventListener("click", function () {
             let newName = prompt("Please enter your new board name", document.getElementById("title" + board.id).innerHTML);
             document.getElementById("title" + board.id).innerHTML = newName;
-            dataHandler.save_boards()
+            dataHandler.saveBoards()
         })
     },
 
@@ -87,7 +87,7 @@ export let dom = {
                     title: newCardName
                 };
                 document.getElementById("board-column-content-" + board.id + "-new").appendChild(dom.createCard(newCard));
-                dataHandler.save_cards();
+                dataHandler.saveCards();
             });
         });
         header.appendChild(button1);
@@ -99,8 +99,13 @@ export let dom = {
         deleteBoardButton.id = "delete-"+ board.id;
         deleteBoardButton.innerHTML = "Delete board";
         deleteBoardButton.addEventListener("click", function () {
-           document.getElementById("section" + board.id).remove();
-           dataHandler.save_boards()
+            let deleteSection = document.getElementById("section" + board.id);
+            let cards = dom.getCardDataFromHtml(deleteSection.getElementsByClassName("card-title"));
+            console.log(cards);
+            dataHandler.getArchive((archiveData) => dom.addNewDataToArchive(archiveData, cards));
+            deleteSection.remove();
+            dataHandler.saveCards();
+            dataHandler.saveBoards()
         });
         header.appendChild(deleteBoardButton);
         header.appendChild(dom.createBoardToggleButton(board));
@@ -178,7 +183,10 @@ export let dom = {
         cardRemove.innerHTML = '<i class="fas fa-trash-alt"></i>';
         cardRemove.addEventListener("click", function () {
             this.parentElement.remove();
-            dataHandler.save_cards();
+            let cardArray = [];
+            cardArray.push(card);
+            dataHandler.getArchive((archiveData) => dom.addNewDataToArchive(archiveData, cardArray));
+            dataHandler.saveCards();
         });
         elementCard.appendChild(cardRemove);
         let cardTitle = document.createElement("div");
@@ -225,7 +233,7 @@ export let dom = {
                 document.getElementById("board-column-content-" + board.id + "-testing"),
                 document.getElementById("board-column-content-" + board.id + "-done")])
                 .on('drop', function () {
-                    dataHandler.save_cards(function () {
+                    dataHandler.saveCards(function () {
                     })
                 });
         }
@@ -233,8 +241,8 @@ export let dom = {
     },
 
 
-    getCardDataFromHtml: function () {
-        let cards = document.querySelectorAll(".card-title");
+    getCardDataFromHtml: function (cards) {
+        //let cards = document.querySelectorAll(".card-title");
         let cardsData = [];
         let counter = 0;
         let order = 0;
@@ -277,6 +285,15 @@ export let dom = {
             boardsData.push(boardData);
         }
         return boardsData
+    },
+
+    addNewDataToArchive: function (archiveData, cards) {
+        console.log(archiveData);
+        console.log(cards);
+        Array.prototype.push.apply(archiveData, cards);
+        //archiveData.push(cards);
+        console.log(archiveData);
+        dataHandler.saveArchive(archiveData)
     }
 
 };
