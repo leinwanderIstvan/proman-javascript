@@ -13,9 +13,25 @@ def index():
     """
     return render_template('index.html')
 
+
 @app.route("/archive-cards")
 def archive_card():
-    return render_template('archive-cards.html',cards=cards)
+    cards = data_handler.get_archive()
+    new_cards = []
+    inprogress_cards = []
+    testing_cards = []
+    done_cards = []
+    for card in cards:
+        if card['status_id'] == 'new':
+            new_cards.append(card)
+        elif card['status_id'] == 'in progress':
+            inprogress_cards.append(card)
+        elif card['status_id'] == 'testing':
+            testing_cards.append(card)
+        elif card['status_id'] == 'done':
+            done_cards.append(card)
+    return render_template('archive-cards.html', newCards=new_cards, inprogressCards=inprogress_cards,
+                           testingCards=testing_cards, doneCards=done_cards)
 
 
 @app.route("/get-boards")

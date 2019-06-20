@@ -141,7 +141,6 @@ export let dom = {
 
         loadBoard: function (board_id) {
             dataHandler.getBoard(board_id, function (board_id, board) {
-                console.log(board_id, board)
             });
         },
 
@@ -170,6 +169,9 @@ export let dom = {
                 dom.renameBoard(board);
                 document.getElementById("board-container").appendChild(section);
             }
+            let archiveButton = document.createElement("button");
+            archiveButton.classList.add("newButton");
+            document.getElementById("board-container");
 
     },
     createCard: function (card) {
@@ -251,7 +253,7 @@ export let dom = {
             createNewBoardButton: function () {
                 let newBoardButton = document.createElement("button");
                 newBoardButton.innerHTML = "Create new board";
-                newBoardButton.classList.add("createNewBoardButton");
+                newBoardButton.classList.add("newButton");
                 newBoardButton.addEventListener('click', function () {
                         dataHandler.getLastBoardId(function (max_id) {
                                 let newBoardTitle = prompt('Enter your new board name:', 'Board');

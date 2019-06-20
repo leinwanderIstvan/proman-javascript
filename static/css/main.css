@@ -2,9 +2,14 @@
     background-color: green;
 }
 
-.createNewBoardButton{
-    margin:0% 0% 0% 44%;
+.newButton{
+    margin:0% 0% 0% 43%;
     padding: 10px;
     font-size: 20px;
+}
+
+#archived-cards{
+    background-color: white;
+    margin: 20px;
 }
 
