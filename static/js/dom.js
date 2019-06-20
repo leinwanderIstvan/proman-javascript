@@ -101,7 +101,6 @@ export let dom = {
         deleteBoardButton.addEventListener("click", function () {
             let deleteSection = document.getElementById("section" + board.id);
             let cards = dom.getCardDataFromHtml(deleteSection.getElementsByClassName("card-title"));
-            console.log(cards);
             dataHandler.getArchive((archiveData) => dom.addNewDataToArchive(archiveData, cards));
             deleteSection.remove();
             dataHandler.saveCards();
@@ -288,12 +287,8 @@ export let dom = {
     },
 
     addNewDataToArchive: function (archiveData, cards) {
-        console.log(archiveData);
-        console.log(cards);
         Array.prototype.push.apply(archiveData, cards);
-        //archiveData.push(cards);
-        console.log(archiveData);
-        dataHandler.saveArchive(archiveData)
+        dataHandler.saveArchive(archiveData);
     }
 
 };
