@@ -3,6 +3,7 @@ import csv
 STATUSES_FILE = './data/statuses.csv'
 BOARDS_FILE = './data/boards.csv'
 CARDS_FILE = './data/cards.csv'
+ARCHIVE_FILE = './data/archive.csv'
 
 _cache = {}  # We store cached data in this dict to avoid multiple file readings
 
@@ -61,7 +62,7 @@ def _write_csv(file_name, dict_data):
 
 
 def csv_headers(file_name):
-    if file_name == CARDS_FILE:
+    if file_name == CARDS_FILE or file_name == ARCHIVE_FILE:
         return ['id', 'board_id', 'title', 'status_id', 'order']
     elif file_name == BOARDS_FILE:
         return ['id', 'title']
@@ -75,3 +76,11 @@ def write_cards(dict_data):
 
 def write_boards(dict_data):
     _write_csv(BOARDS_FILE, dict_data)
+
+
+def write_archive(dict_data):
+    _write_csv(ARCHIVE_FILE, dict_data)
+
+
+def get_archived_cards(force=False):
+    return _get_data('archive', ARCHIVE_FILE, force)

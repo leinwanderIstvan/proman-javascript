@@ -88,6 +88,19 @@ def write_boards_to_file():
     return True
 
 
+@app.route("/write-archive", methods=['POST'])
+@json_response
+def write_archive_to_file():
+    data_handler.write_archive_to_file(request.json['dict_data'])
+    return True
+
+
+@app.route("/get-archive")
+@json_response
+def get_archive():
+    return data_handler.get_archive()
+
+
 def main():
     app.run(debug=True)
 
